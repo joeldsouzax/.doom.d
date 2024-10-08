@@ -5,7 +5,7 @@
       user-mail-address "joeldsouzax@gmail.com"
       doom-theme 'doom-one
       display-line-numbers-type t
-      org-directory "~/Documents/org"
+      org-directory "~/org"
       doom-themes-padded-modeline t
       treemacs-project-follow-cleanup t
       treemacs-project-follow-mode t
@@ -18,7 +18,6 @@
       org-ellipsis " ▼ ")
 
 (add-to-list 'default-frame-alist '(undecorated-round . t))
-
 
 
 (after! lsp-ui
@@ -47,26 +46,58 @@
   :config
   (treemacs-load-theme "nerd-icons"))
 
+(use-package lsp-treemacs :after treemacs)
+
+
+(after! rust-mode
+  (setq rust-format-on-save t))
+
 (after! rustic
-  (setq lsp-inlay-hint-enable t
-        lsp-eldoc-render-all t
-        ;; lsp-rust-analyzer-closing-brace-hints t
-        ;; lsp-rust-analyzer-binding-mode-hints t
-        lsp-rust-analyzer-diagnostics-warnings-as-info t
-        ;; lsp-rust-analyzer-display-chaining-hints t
-        lsp-rust-analyzer-display-lifetime-elision-hints-enable t
-        ;; lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names "skip_trivial"
-        ;; lsp-rust-analyzer-display-closure-return-type-hints t
-        ;; lsp-rust-analyzer-display-reborrow-hints t
-        lsp-rust-analyzer-display-parameter-hints t))
+  (setq
+   ;; lsp-inlay-hint-enable t
+   rustic-format-on-save t
+   lsp-eldoc-render-all t
+   lsp-rust-analyzer-closing-brace-hints t
+   lsp-rust-analyzer-binding-mode-hints t
+   lsp-rust-analyzer-diagnostics-warnings-as-info t
+   ;; lsp-rust-analyzer-display-chaining-hints t
+   lsp-rust-analyzer-display-lifetime-elision-hints-enable t
+   ;; lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names "skip_trivial"
+   lsp-rust-analyzer-display-closure-return-type-hints t
+   lsp-rust-analyzer-display-reborrow-hints t
+   lsp-rust-analyzer-display-parameter-hints t))
 
 
-                                        ; MERMAID
+(use-package! nginx-mode
+  :defer t)
+
+;; -------------------- org -------------------- ;
 (use-package mermaid-mode
   :defer
   :config
   (setq mermaid-mmdc-location "~/node_modules/.bin/mmdc"
         ob-mermaid-cli-path "~/node_modules/.bin/mmdc"))
+
+;;-------------------- mail server stuffd --------------------;;
+;;
+
+(after! mu4e
+  (setq sendmail-program (executable-find "msmtp")
+        send-mail-function #'smtpmail-send-it
+        message-sendmail-f-is-evil t
+        message-sendmail-extra-arguments '("--read-envelope-from")
+        message-send-mail-function #'message-send-mail-with-sendmail))
+
+
+(set-email-account! "Devrandom.co"
+                    '((mu4e-sent-folder       . "/devrandom/sent")
+                      (mu4e-drafts-folder     . "/devrandom/drafts")
+                      (mu4e-trash-folder      . "/devrandom/trash")
+                      (mu4e-refile-folder     . "/devrandom/all_mail")
+                      (smtpmail-smtp-user     . "joel@devrandom.co")
+                      (user-mail-address      . "joel@devrandom.co")    ;; only needed for mu < 1.4
+                      (mu4e-compose-signature . "---\nJoel DSouza "))
+                    t)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
