@@ -60,10 +60,10 @@
    lsp-rust-analyzer-closing-brace-hints t
    lsp-rust-analyzer-binding-mode-hints t
    lsp-rust-analyzer-diagnostics-warnings-as-info t
-   ;; lsp-rust-analyzer-display-chaining-hints t
+   lsp-rust-analyzer-display-chaining-hints t
    lsp-rust-analyzer-display-lifetime-elision-hints-enable t
-   ;; lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names "skip_trivial"
-   lsp-rust-analyzer-display-closure-return-type-hints t
+   lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names "skip_trivial"
+   ;; lsp-rust-analyzer-display-closure-return-type-hints t
    lsp-rust-analyzer-display-reborrow-hints t
    lsp-rust-analyzer-display-parameter-hints t))
 
